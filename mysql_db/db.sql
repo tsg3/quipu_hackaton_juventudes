@@ -1,5 +1,3 @@
-BEGIN;
-
 CREATE TABLE IF NOT EXISTS quipu_db.Rol
 (
     id INT NOT NULL,
@@ -226,5 +224,3 @@ CREATE TABLE IF NOT EXISTS quipu_db.LikertEvento
     FOREIGN KEY (idLikert) REFERENCES quipu_db.Likert(id),
     FOREIGN KEY (idEvento) REFERENCES quipu_db.Evento(id)
 );
-
-COMMIT;
