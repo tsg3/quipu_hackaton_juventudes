@@ -2,7 +2,7 @@ from flask import Blueprint, request, session, redirect, url_for
 import flask_login
 
 import flaskr.app.persistence.users as user_db
-from flaskr.app.models.user_model import User
+from flaskr.app.models.users import User
 
 users_pages = Blueprint('index', __name__)
 @users_pages.route('/')

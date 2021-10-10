@@ -3,9 +3,9 @@ import os
 from flask import Flask
 from flask_login import LoginManager
 
-from flaskr.app.routes.routes import users_pages
+from flaskr.app.routes.users import users_pages
 from flaskr.app.persistence.users import get_user_for_session
-from flaskr.app.models.user_model import User
+from flaskr.app.models.users import User
 
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
