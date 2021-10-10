@@ -13,11 +13,11 @@ def create_user(form):
         with connection.cursor() as cursor:
             cursor.execute(
             """INSERT INTO Usuario 
-                (idRol, username, nombre, apellido1, apellido2, 
+                (idRol, correo, nombre, apellido1, apellido2, 
                 nacimiento, genero, nacionalidad, residencia, 
                 actividad, contrasena, estado) VALUES 
             (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);""",
-            (idRol, form["nombre"], form["username"], form["apellido1"], 
+            (idRol, form["correo"], form["nombre"], form["apellido1"], 
             form["apellido2"], birth_date, form["genero"], form["nacionalidad"], 
             form["residencia"], form["actividad"], password, 1))
         connection.commit()
@@ -37,8 +37,8 @@ def login_user(form):
         with connection.cursor() as cursor:
             cursor.execute(
                 """SELECT id FROM Usuario 
-                WHERE username = %s AND contrasena = %s;""",
-                (form["username"], password))
+                WHERE correo = %s AND contrasena = %s;""",
+                (form["correo"], password))
             match = cursor.fetchone()
         if match == None:
             return -2
@@ -55,7 +55,7 @@ def get_user_for_session(id):
 
         with connection.cursor() as cursor:
             cursor.execute(
-                """SELECT id, username, contrasena, estado 
+                """SELECT id, correo, contrasena, estado 
                 FROM Usuario WHERE id = %s;""", (id))
             match = cursor.fetchone()
         if match == None:

@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS quipu_db.Usuario
 (
     id INT NOT NULL AUTO_INCREMENT,
     idRol INT NOT NULL,
-    username VARCHAR(20),
+    correo VARCHAR(50),
     nombre VARCHAR(15),
     apellido1 VARCHAR(15),
     apellido2 VARCHAR(15),

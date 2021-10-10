@@ -21,7 +21,7 @@ def register():
     return '''
         <form method="post">
             <p>idRol<input type=text name=idRol>
-            <p>username<input type=text name=username>
+            <p>correo<input type=text name=correo>
             <p>nombre<input type=text name=nombre>
             <p>apellido1<input type=text name=apellido1>
             <p>apellido2<input type=text name=apellido2>
@@ -45,18 +45,18 @@ def login():
             user = User()
             match = user_db.get_user_for_session(res[0])
             user.id = res[0]
-            user.username = match[1]
+            user.correo = match[1]
             user.contrasena = match[2]
             user.estado = match[3]
             flask_login.login_user(user)
             
             return redirect(url_for('.index'))
         return redirect(url_for('.login'))
-    if request.method == 'GET' and 'username' in session:
+    if request.method == 'GET' and flask_login.current_user.is_authenticated:
         return redirect(url_for('.index'))
     return '''
         <form method="post">
-            <p>username<input type=text name=username>
+            <p>correo<input type=text name=correo>
             <p>contrasena<input type=text name=contrasena>
             <p><input type=submit value=Login>
         </form>

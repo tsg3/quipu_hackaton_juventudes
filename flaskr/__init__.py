@@ -27,7 +27,7 @@ def create_app(test_config=None):
         user = User()
         match = get_user_for_session(user_id)
         user.id = user_id
-        user.username = match[1]
+        user.correo = match[1]
         user.contrasena = match[2]
         user.estado = match[3]
         return user
