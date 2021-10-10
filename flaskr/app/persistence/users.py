@@ -1,5 +1,6 @@
-from flaskr.app.persistence.db import db_connect
 from hashlib import md5
+
+from flaskr.app.persistence.db import db_connect
 
 def create_user(form):
     try:
@@ -43,7 +44,25 @@ def login_user(form):
             return -2
 
         connection.close()
-        return 0
+        return match
+    except Exception as e:
+        print(e)
+        return -1
+
+def get_user_for_session(id):
+    try:
+        connection = db_connect()
+
+        with connection.cursor() as cursor:
+            cursor.execute(
+                """SELECT id, username, contrasena, estado 
+                FROM Usuario WHERE id = %s;""", (id))
+            match = cursor.fetchone()
+        if match == None:
+            return -2
+
+        connection.close()
+        return match
     except Exception as e:
         print(e)
         return -1
