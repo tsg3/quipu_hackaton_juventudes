@@ -17,11 +17,25 @@ CREATE TABLE IF NOT EXISTS quipu_db.Usuario
     genero VARCHAR(20),
     nacionalidad VARCHAR(30),
     residencia VARCHAR(30),
-    actividad VARCHAR(30),
     contrasena VARCHAR(20),
     estado BOOLEAN,
     PRIMARY KEY (id),
     FOREIGN KEY (idRol) REFERENCES quipu_db.Rol(id)
+);
+
+CREATE TABLE IF NOT EXISTS quipu_db.Actividad
+(
+    id INT NOT NULL AUTO_INCREMENT,
+    actividad VARCHAR(18),
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS quipu_db.UsuarioActividad
+(
+    idUsuario INT NOT NULL,
+    idActividad INT NOT NULL,
+    FOREIGN KEY (idUsuario) REFERENCES quipu_db.Usuario(id),
+    FOREIGN KEY (idActividad) REFERENCES quipu_db.Actividad(id)
 );
 
 CREATE TABLE IF NOT EXISTS quipu_db.Prueba
@@ -231,3 +245,14 @@ INSERT INTO quipu_db.Rol (rol) VALUES
     ("Administrador"),
     ("Autorizado"),
     ("Proveedor");
+
+INSERT INTO quipu_db.Actividad (actividad) VALUES
+    ("Pesca"),
+    ("Maricultura"),
+    ("Ganadería de carne"),
+    ("Ganadería lechera"),
+    ("Porcicultura"),
+    ("Entomolfagia"),
+    ("Agricultura"),
+    ("Avicultura"),
+    ("Apicultura");

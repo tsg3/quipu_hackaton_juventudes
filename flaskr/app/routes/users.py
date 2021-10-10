@@ -31,7 +31,6 @@ def register():
             <p>genero<input type=text name=genero>
             <p>nacionalidad<input type=text name=nacionalidad>
             <p>residencia<input type=text name=residencia>
-            <p>actividad<input type=text name=actividad>
             <p>contrasena<input type=text name=contrasena>
             <p><input type=submit value=Register>
         </form>

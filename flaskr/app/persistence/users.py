@@ -15,11 +15,11 @@ def create_user(form):
             """INSERT INTO Usuario 
                 (idRol, correo, nombre, apellido1, apellido2, 
                 nacimiento, genero, nacionalidad, residencia, 
-                actividad, contrasena, estado) VALUES 
-            (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);""",
+                contrasena, estado) VALUES 
+            (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);""",
             (idRol, form["correo"], form["nombre"], form["apellido1"], 
             form["apellido2"], birth_date, form["genero"], form["nacionalidad"], 
-            form["residencia"], form["actividad"], password, 1))
+            form["residencia"], password, 1))
         connection.commit()
 
         connection.close()
