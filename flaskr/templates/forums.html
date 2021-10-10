@@ -1,0 +1,12 @@
+<title>Forums</title>
+<section class="content">
+    <header>
+        Forums
+    </header>
+    {% for forum in forums %}
+        <form method ="post" action="/forum/read">
+            <div class="flash">{{ forum[1] }}</div>
+            <button type="submit" name="read" value={{ forum[0] }}>Read</button>
+        </form>
+    {% endfor %}
+</section>

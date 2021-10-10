@@ -1,4 +1,4 @@
-from flask import Blueprint, request, session, redirect, url_for
+from flask import Blueprint, request, redirect, url_for
 import flask_login
 
 import flaskr.app.persistence.users as user_db
