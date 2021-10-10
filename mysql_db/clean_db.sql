@@ -22,5 +22,7 @@ DROP TABLE IF EXISTS quipu_db.Evento;
 
 DROP TABLE IF EXISTS quipu_db.Prueba;
 DROP TABLE IF EXISTS quipu_db.Likert;
+DROP TABLE IF EXISTS quipu_db.UsuarioActividad;
 DROP TABLE IF EXISTS quipu_db.Usuario;
+DROP TABLE IF EXISTS quipu_db.Actividad;
 DROP TABLE IF EXISTS quipu_db.Rol;

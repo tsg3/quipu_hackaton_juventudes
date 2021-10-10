@@ -1,6 +1,11 @@
 import os
-from flask import Flask, request, session, redirect, url_for
-import flaskr.app.persistence.users as users
+
+from flask import Flask
+from flask_login import LoginManager
+
+from flaskr.app.routes.users import users_pages
+from flaskr.app.persistence.users import get_user_for_session
+from flaskr.app.models.users import User
 
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
@@ -13,29 +18,18 @@ def create_app(test_config=None):
     )
     file.close()
 
-    @app.route('/')
-    def index():
-        roles = users.get_roles()
-        # roles = "roles"
-        if 'username' in session:
-            return f'Logged in as {session["username"]} -> roles={roles}'
-        return f'You are not logged in -> roles={roles}'
+    app.register_blueprint(users_pages)
 
-    @app.route('/login', methods=['GET', 'POST'])
-    def login():
-        if request.method == 'POST':
-            session['username'] = request.form['username']
-            return redirect(url_for('index'))
-        return '''
-            <form method="post">
-                <p><input type=text name=username>
-                <p><input type=submit value=Login>
-            </form>
-        '''
-
-    @app.route('/logout')
-    def logout():
-        session.pop('username', None)
-        return redirect(url_for('index'))
+    login_manager = LoginManager()
+    login_manager.init_app(app)
+    @login_manager.user_loader
+    def load_user(user_id):
+        user = User()
+        match = get_user_for_session(user_id)
+        user.id = user_id
+        user.correo = match[1]
+        user.contrasena = match[2]
+        user.estado = match[3]
+        return user
 
     return app
