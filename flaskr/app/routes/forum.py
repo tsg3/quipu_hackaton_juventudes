@@ -38,7 +38,9 @@ def read():
 
     match = forum_db.get_forum(request.form.get("read"))
     if match != -1 and match != -2:
-        return f"""<h1>Título: {match[0]}</h1>
+        state = "Abierto" if match[3] == 0 else "Cerrado"
+        return f"""<h1>[{state}] Título: {match[0]}</h1>
+            ~ Publicado por {match[4]} {match[5]} {match[6]} el: {match[2]}
             <p>{match[1]}"""
 
     return redirect(url_for('index.index'))

@@ -45,7 +45,12 @@ def get_forum(id):
         match = None
         with connection.cursor() as cursor:
             cursor.execute("""
-                SELECT titulo, datos FROM Foro WHERE id = %s;""", (id))
+                SELECT 
+                Foro.titulo, Foro.datos, Foro.publicacion, Foro.cerrado,
+                Usuario.nombre, Usuario.apellido1, Usuario.apellido2
+                FROM Foro 
+                INNER JOIN Usuario ON Foro.idUsuario = Usuario.id
+                WHERE Foro.id = %s;""", (id))
             match = cursor.fetchone()
         if match == None:
             return -2
