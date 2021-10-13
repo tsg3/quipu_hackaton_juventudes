@@ -60,3 +60,70 @@ def get_forum(id):
     except Exception as e:
         print(e)
         return -1
+
+def post_comment(text, idUser, datetime, idForum=None, idComment=None):
+    if idForum == None and idComment == None:
+        return -2
+
+    try:
+        connection = db_connect()
+
+        if idForum != None:
+            with connection.cursor() as cursor:
+                cursor.execute(
+                """INSERT INTO ComentarioForo 
+                    (idUsuario, idForo, texto, publicacion,
+                    votos, promedio, estado) VALUES 
+                (%s, %s, %s, %s, %s, %s, %s);""",
+                (idUser, idForum, text, datetime, 0, 0, 1))
+        else:
+            with connection.cursor() as cursor:
+                cursor.execute(
+                """INSERT INTO ComentarioForo 
+                    (idUsuario, idComentarioForo, texto, publicacion,
+                    votos, promedio, estado) VALUES 
+                (%s, %s, %s, %s, %s, %s, %s);""",
+                (idUser, idComment, text, datetime, 0, 0, 1))
+        connection.commit()
+
+        connection.close()
+        return 0
+    except Exception as e:
+        print(e)
+        return -1
+
+def get_comments(idForum): 
+    try:
+        connection = db_connect()
+
+        responses = {}
+
+        with connection.cursor() as cursor:
+            cursor.execute(
+            """SELECT Comm.id, Comm.texto, Comm.publicacion,
+                Comm.votos, Comm.promedio,
+                Us.nombre, Us.apellido1, Us.apellido2
+                FROM ComentarioForo AS Comm
+                INNER JOIN Usuario AS Us ON Comm.idUsuario = Us.id
+                WHERE Comm.idForo = %s;""", (idForum))
+            responses["comms"] = cursor.fetchall()
+        
+        replies = {}
+
+        with connection.cursor() as cursor:
+            for match in responses["comms"]:
+                cursor.execute(
+                """SELECT Comm.id, Comm.texto, Comm.publicacion,
+                    Comm.votos, Comm.promedio,
+                    Us.nombre, Us.apellido1, Us.apellido2
+                    FROM ComentarioForo AS Comm
+                    INNER JOIN Usuario AS Us ON Comm.idUsuario = Us.id
+                    WHERE Comm.idComentarioForo = %s;""", (match[0]))
+                replies[match[0]] = cursor.fetchall()
+        responses["replies"] = replies
+
+        connection.close()
+        return responses
+    except Exception as e:
+        print(e)
+        return -1

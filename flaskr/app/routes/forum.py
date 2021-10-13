@@ -2,6 +2,7 @@ from flask import Blueprint, request, redirect, url_for, render_template
 import flask_login
 from uuid import uuid4
 import base64
+from datetime import datetime
 
 import flaskr.app.persistence.forum as forum_db 
 
@@ -37,7 +38,7 @@ def post():
         <p><input type=submit value=Post>
     </form>"""
 
-@forum_pages.route('/read/<uuid>', methods=['GET', 'POST']) # Only GET for the moment
+@forum_pages.route('/read/<uuid>', methods=['GET'])
 def read(uuid):
     if flask_login.current_user.get_id() == None:
         return redirect(url_for('index.index'))
@@ -48,9 +49,32 @@ def read(uuid):
     match = forum_db.get_forum(key)
 
     if match != -1 and match != -2:
+        comments = forum_db.get_comments(key)
         state = "Abierto" if match[3] == 0 else "Cerrado"
-        return f"""<h1>[{state}] Título: {match[0]}</h1>
-            ~ Publicado por {match[4]} {match[5]} {match[6]} el: {match[2]}
-            <p>{match[1]}"""
+
+        return render_template("forum.html", 
+            forum=match, state=state, uuid=uuid, comments=comments)
+
+    return redirect(url_for('index.index'))
+
+@forum_pages.route('/read/<uuid>/comment', methods=['POST'])
+def comment(uuid):
+    if flask_login.current_user.get_id() == None:
+        return redirect(url_for('index.index'))
+
+    if request.form["texto"] != "":
+        key = uuid.encode()
+        padding = 4 - (len(key) % 4)
+        key = base64.urlsafe_b64decode(key + (b"=" * padding))
+
+        res = forum_db.post_comment(
+            request.form["texto"], flask_login.current_user.get_id(),
+            datetime.now().strftime("%Y-%m-%d %H:%M:%S"), idForum=key
+        )
+        
+        if res > -1:
+            return redirect(url_for('.read', uuid=uuid))
+
+        return redirect(url_for('index.index'))
 
     return redirect(url_for('index.index'))

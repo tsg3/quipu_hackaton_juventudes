@@ -1,0 +1,19 @@
+<title>Forum</title>
+<section class="content">
+    <h1>{{ state }} Título: {{ forum[0] }}</h1>
+    ~ Publicado por {{ forum[4] }} {{ forum[5] }} {{ forum[6] }} el: {{ forum[2] }}
+    <p>{{ forum[1] }}
+    <form method ="post" action="/forum/read/{{ uuid }}/comment">
+        <button type="submit">Comentar</button>
+        <p><textarea name="texto" cols="40" rows="5" 
+            placeholder="Ingrese su comentario..."></textarea>
+    </form>
+    <hr>
+    <h2>Comentarios</h2>
+    {% for comment in comments['comms'] %}
+        {{ comment[5] }} {{ comment[6] }} {{ comment[7] }} el: {{ comment[2] }}
+        <p> | {{ comment[1] }}
+        <p>Votos: {{ comment[3] }} | Promedio: {{ comment[4] }}
+        <hr>
+    {% endfor %}
+</section>
