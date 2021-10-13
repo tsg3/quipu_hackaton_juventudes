@@ -2,7 +2,7 @@ from datetime import datetime
 
 from flaskr.app.persistence.db import db_connect
 
-def post_forum(id, form):
+def post_forum(id, key, form):
     try:
         connection = db_connect()
 
@@ -11,10 +11,10 @@ def post_forum(id, form):
         with connection.cursor() as cursor:
             cursor.execute(
             """INSERT INTO Foro 
-                (idUsuario, titulo, datos,
+                (id, idUsuario, titulo, datos,
                 publicacion, cerrado, estado) VALUES 
-            (%s, %s, %s, %s, %s, %s);""",
-            (id, form["titulo"], form["datos"], timedate, 0, 1))
+            (X%s, %s, %s, %s, %s, %s, %s);""",
+            (key, id, form["titulo"], form["datos"], timedate, 0, 1))
         connection.commit()
 
         connection.close()

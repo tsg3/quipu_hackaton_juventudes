@@ -4,9 +4,9 @@
         Forums
     </header>
     {% for forum in forums %}
-        <form method ="post" action="/forum/read">
+        <form method ="get" action="/forum/read/{{ forum[0] }}">
             <div class="flash">{{ forum[1] }}</div>
-            <button type="submit" name="read" value={{ forum[0] }}>Read</button>
+            <button type="submit">Read</button>
         </form>
     {% endfor %}
 </section>

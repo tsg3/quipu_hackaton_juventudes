@@ -1,5 +1,7 @@
 from flask import Blueprint, request, redirect, url_for, render_template
 import flask_login
+from uuid import uuid4
+import base64
 
 import flaskr.app.persistence.forum as forum_db 
 
@@ -11,7 +13,10 @@ def index():
 
     forums = forum_db.get_forums()
     if forums != -1:
-        return render_template("forums.html", forums=forums)
+        forums_list = [list(forum) for forum in forums]
+        for i in range(len(forums_list)):
+            forums_list[i][0] = base64.urlsafe_b64encode(forums_list[i][0]).rstrip(b"=").decode()
+        return render_template("forums.html", forums=forums_list)
 
     return redirect(url_for('index.index'))
 
@@ -20,7 +25,8 @@ def post():
     if flask_login.current_user.get_id() == None:
         return redirect(url_for('index.index'))
     elif request.method == "POST":
-        res = forum_db.post_forum(flask_login.current_user.get_id(), request.form)
+        key = uuid4().hex
+        res = forum_db.post_forum(flask_login.current_user.get_id(), key, request.form)
         if res == 0:
             return redirect(url_for('.index'))
         return redirect(url_for('.post'))
@@ -31,12 +37,16 @@ def post():
         <p><input type=submit value=Post>
     </form>"""
 
-@forum_pages.route('/read', methods=['POST'])
-def read():
-    if flask_login.current_user.get_id() == None or request.form.get("read") == None:
+@forum_pages.route('/read/<uuid>', methods=['GET', 'POST']) # Only GET for the moment
+def read(uuid):
+    if flask_login.current_user.get_id() == None:
         return redirect(url_for('index.index'))
 
-    match = forum_db.get_forum(request.form.get("read"))
+    key = uuid.encode()
+    padding = 4 - (len(key) % 4)
+    key = base64.urlsafe_b64decode(key + (b"=" * padding))
+    match = forum_db.get_forum(key)
+
     if match != -1 and match != -2:
         state = "Abierto" if match[3] == 0 else "Cerrado"
         return f"""<h1>[{state}] Título: {match[0]}</h1>
