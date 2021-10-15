@@ -1,4 +1,4 @@
-from flask import Blueprint, request, redirect, url_for
+from flask import Blueprint, request, redirect, url_for, render_template
 import flask_login
 
 import flaskr.app.persistence.users as user_db
@@ -10,6 +10,23 @@ def index():
     if flask_login.current_user.get_id() != None:
         return "Main page: Logged"
     return "Main page: Not logged"
+
+@users_pages.route('/profile', methods=['GET'])
+def profile():
+    key = flask_login.current_user.get_id()
+    if key != None:
+        
+        res = user_db.get_user_data(key)
+
+        if res == -1: # Error
+            return redirect(url_for('.index'))
+
+        elif res[8] == 1:
+            return render_template("profile.html", user=res)
+
+        return redirect(url_for('.index')) # Deleted user
+
+    return redirect(url_for('.index')) # Not logged
 
 @users_pages.route('/register', methods=['GET', 'POST'])
 def register():
