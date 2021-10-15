@@ -41,6 +41,7 @@ def login_user(form):
                 (form["correo"], password))
             match = cursor.fetchone()
         if match == None:
+            connection.close()
             return -2
 
         connection.close()
@@ -59,7 +60,34 @@ def get_user_for_session(id):
                 FROM Usuario WHERE id = %s;""", (id))
             match = cursor.fetchone()
         if match == None:
+            connection.close()
             return -2
+
+        connection.close()
+        return match
+    except Exception as e:
+        print(e)
+        return -1
+
+def get_user_data(key):
+    try:
+        connection = db_connect()
+
+        with connection.cursor() as cursor:
+            cursor.execute(
+                """SELECT U.correo, U.nombre, U.apellido1, U.apellido2, 
+                    U.nacimiento, U.genero, U.nacionalidad, U.residencia, 
+                    U.estado, R.rol
+                FROM Usuario AS U
+                INNER JOIN Rol AS R ON U.idRol = R.id
+                WHERE U.id = %s;""", (key))
+
+                # Needed for final product
+                # 
+                # INNER JOIN ActividadUsuario AS AU ON U.id = AU.idUsuario
+                # INNER JOIN Actividad AS A ON AU.idActividad = A.id
+
+            match = cursor.fetchone()
 
         connection.close()
         return match

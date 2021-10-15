@@ -1,0 +1,12 @@
+<title>Forums</title>
+<section class="content">
+    <header>
+        Forums
+    </header>
+    {% for forum in forums %}
+        <form method ="get" action="/forum/read/{{ forum[0] }}">
+            <div class="flash">{{ forum[1] }}</div>
+            <button type="submit">Read</button>
+        </form>
+    {% endfor %}
+</section>

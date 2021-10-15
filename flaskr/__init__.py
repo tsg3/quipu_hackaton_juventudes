@@ -4,6 +4,7 @@ from flask import Flask
 from flask_login import LoginManager
 
 from flaskr.app.routes.users import users_pages
+from flaskr.app.routes.forum import forum_pages
 from flaskr.app.persistence.users import get_user_for_session
 from flaskr.app.models.users import User
 
@@ -19,6 +20,7 @@ def create_app(test_config=None):
     file.close()
 
     app.register_blueprint(users_pages)
+    app.register_blueprint(forum_pages)
 
     login_manager = LoginManager()
     login_manager.init_app(app)

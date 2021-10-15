@@ -150,7 +150,7 @@ CREATE TABLE IF NOT EXISTS quipu_db.ItemGuardar
 
 CREATE TABLE IF NOT EXISTS quipu_db.Foro
 (
-    id INT NOT NULL AUTO_INCREMENT,
+    id BINARY(16) NOT NULL,
     idUsuario INT NOT NULL,
     titulo VARCHAR(100),
     datos TEXT(10000),
@@ -165,7 +165,7 @@ CREATE TABLE IF NOT EXISTS quipu_db.ComentarioForo
 (
     id INT NOT NULL AUTO_INCREMENT,
     idUsuario INT NOT NULL,
-    idForo INT,
+    idForo BINARY(16),
     idComentarioForo INT,
     texto TEXT(10000),
     publicacion DATETIME,
@@ -180,8 +180,9 @@ CREATE TABLE IF NOT EXISTS quipu_db.ComentarioForo
 
 CREATE TABLE IF NOT EXISTS quipu_db.ForoGuardar
 (
-    idForo INT NOT NULL,
+    idForo BINARY(16) NOT NULL,
     idUsuario INT NOT NULL,
+    estado BOOLEAN,
     FOREIGN KEY (idForo) REFERENCES quipu_db.Foro(id),
     FOREIGN KEY (idUsuario) REFERENCES quipu_db.Usuario(id)
 );
