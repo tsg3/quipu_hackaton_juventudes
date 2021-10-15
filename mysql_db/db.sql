@@ -182,6 +182,7 @@ CREATE TABLE IF NOT EXISTS quipu_db.ForoGuardar
 (
     idForo BINARY(16) NOT NULL,
     idUsuario INT NOT NULL,
+    estado BOOLEAN,
     FOREIGN KEY (idForo) REFERENCES quipu_db.Foro(id),
     FOREIGN KEY (idUsuario) REFERENCES quipu_db.Usuario(id)
 );

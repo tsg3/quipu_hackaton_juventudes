@@ -53,6 +53,7 @@ def get_forum(id):
                 WHERE Foro.id = %s;""", (id))
             match = cursor.fetchone()
         if match == None:
+            connection.close()
             return -2
 
         connection.close()
@@ -124,6 +125,82 @@ def get_comments(idForum):
 
         connection.close()
         return responses
+    except Exception as e:
+        print(e)
+        return -1
+
+def save_forum(idUser, idForum):
+    try:
+        connection = db_connect()
+
+        match = None
+        with connection.cursor() as cursor:
+            cursor.execute(
+                """SELECT estado FROM ForoGuardar
+                WHERE idForo = %s AND idUsuario = %s;""", 
+                (idForum, idUser))
+            match = cursor.fetchone()
+
+        if match == None:
+            with connection.cursor() as cursor:
+                cursor.execute(
+                    """INSERT INTO ForoGuardar 
+                    (idForo, idUsuario, estado) VALUES
+                    (%s, %s, 1);""", (idForum, idUser))
+
+        else:
+            new_state = 1 if match[0] == 0 else 0
+            with connection.cursor() as cursor:
+                cursor.execute(
+                    """UPDATE ForoGuardar SET estado = %s
+                    WHERE idForo = %s AND idUsuario = %s;""", 
+                    (new_state, idForum, idUser))
+
+        connection.commit()
+
+        connection.close()
+        return 0
+    except Exception as e:
+        print(e)
+        return -1
+
+def check_saved(idUser, idForum):
+    try:
+        connection = db_connect()
+
+        match = None
+        with connection.cursor() as cursor:
+            cursor.execute(
+                """SELECT estado FROM ForoGuardar
+                WHERE idForo = %s AND idUsuario = %s;""", 
+                (idForum, idUser))
+            match = cursor.fetchone()
+        if match == None:
+            match = 0
+        
+        connection.close()
+        return match[0]
+
+    except Exception as e:
+        print(e)
+        return -1
+
+def get_saved_forums(idUser):
+    try:
+        connection = db_connect()
+
+        match = None
+        with connection.cursor() as cursor:
+            cursor.execute(
+                """SELECT F.id, F.titulo FROM Foro AS F
+                INNER JOIN ForoGuardar AS G 
+                    ON F.id = G.idForo
+                WHERE G.idUsuario = %s AND G.estado = 1;""",
+                (idUser,))
+            match = cursor.fetchall()
+
+        connection.close()
+        return match
     except Exception as e:
         print(e)
         return -1

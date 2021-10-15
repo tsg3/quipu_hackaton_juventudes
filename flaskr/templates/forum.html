@@ -5,6 +5,15 @@
     <h1>{{ state }} Título: {{ forum[0] }}</h1>
     ~ Publicado por {{ forum[4] }} {{ forum[5] }} {{ forum[6] }} el: {{ forum[2] }}
     <p>{{ forum[1] }}
+
+    <form method="post" action="/forum/read/{{ uuid }}/save">
+        {% if saved == 0 %}
+            <button type="submit">Guardar foro</button>
+        {% else %}
+            <button type="submit">Eliminar de guardados</button>
+        {% endif %}
+    </form>
+
     <p><button id="show_form" onclick="show_form('show_form', 'forum_comm')" 
         style="display:block">Comentar</button>
     <form id="forum_comm" style="display:none" method ="post" 

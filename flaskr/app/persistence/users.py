@@ -41,6 +41,7 @@ def login_user(form):
                 (form["correo"], password))
             match = cursor.fetchone()
         if match == None:
+            connection.close()
             return -2
 
         connection.close()
@@ -59,6 +60,7 @@ def get_user_for_session(id):
                 FROM Usuario WHERE id = %s;""", (id))
             match = cursor.fetchone()
         if match == None:
+            connection.close()
             return -2
 
         connection.close()

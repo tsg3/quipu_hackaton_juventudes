@@ -51,9 +51,10 @@ def read(uuid):
     if match != -1 and match != -2:
         comments = forum_db.get_comments(key)
         state = "Abierto" if match[3] == 0 else "Cerrado"
+        saved = forum_db.check_saved(flask_login.current_user.get_id(), key)
 
         return render_template("forum.html", 
-            forum=match, state=state, uuid=uuid, comments=comments)
+            forum=match, state=state, uuid=uuid, comments=comments, saved=saved)
 
     return redirect(url_for('index.index'))
 
@@ -103,3 +104,19 @@ def reply(uuid):
         return redirect(url_for('index.index'))
 
     return redirect(url_for('index.index'))
+
+@forum_pages.route('/read/<uuid>/save', methods=['POST'])
+def save(uuid):
+    if flask_login.current_user.get_id() == None:
+        return redirect(url_for('index.index')) # Not logged
+        
+    key = uuid.encode()
+    padding = 4 - (len(key) % 4)
+    key = base64.urlsafe_b64decode(key + (b"=" * padding))
+
+    res = forum_db.save_forum(flask_login.current_user.get_id(), key)
+    
+    if res == 0:
+        return redirect(url_for('.read', uuid=uuid)) # Worked
+
+    return redirect(url_for('index.index')) # Error
