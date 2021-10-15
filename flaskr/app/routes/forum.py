@@ -78,3 +78,28 @@ def comment(uuid):
         return redirect(url_for('index.index'))
 
     return redirect(url_for('index.index'))
+
+@forum_pages.route('/read/<uuid>/reply', methods=['POST'])
+def reply(uuid):
+    if flask_login.current_user.get_id() == None:
+        return redirect(url_for('index.index'))
+
+    if request.form["texto"] != "" or request.form["comment_key"] != "":
+        
+        key = None
+        try:
+            key = int(request.form["comment_key"])
+        except:
+            return redirect(url_for('index.index'))
+
+        res = forum_db.post_comment(
+            request.form["texto"], flask_login.current_user.get_id(),
+            datetime.now().strftime("%Y-%m-%d %H:%M:%S"), idComment=key
+        )
+        
+        if res > -1:
+            return redirect(url_for('.read', uuid=uuid))
+
+        return redirect(url_for('index.index'))
+
+    return redirect(url_for('index.index'))

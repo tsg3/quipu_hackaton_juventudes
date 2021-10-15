@@ -1,19 +1,47 @@
 <title>Forum</title>
+
 <section class="content">
+
     <h1>{{ state }} Título: {{ forum[0] }}</h1>
     ~ Publicado por {{ forum[4] }} {{ forum[5] }} {{ forum[6] }} el: {{ forum[2] }}
     <p>{{ forum[1] }}
-    <form method ="post" action="/forum/read/{{ uuid }}/comment">
+    <p><button id="show_form" onclick="show_form('show_form', 'forum_comm')" 
+        style="display:block">Comentar</button>
+    <form id="forum_comm" style="display:none" method ="post" 
+        action="/forum/read/{{ uuid }}/comment">
         <button type="submit">Comentar</button>
         <p><textarea name="texto" cols="40" rows="5" 
             placeholder="Ingrese su comentario..."></textarea>
     </form>
     <hr>
+
     <h2>Comentarios</h2>
     {% for comment in comments['comms'] %}
         {{ comment[5] }} {{ comment[6] }} {{ comment[7] }} el: {{ comment[2] }}
         <p> | {{ comment[1] }}
         <p>Votos: {{ comment[3] }} | Promedio: {{ comment[4] }}
+
+        {% for reply in comments['replies'][comment[0]] %}
+            <hr style="border-top: 1px dotted red;">
+            <p>&emsp; {{ reply[5] }} {{ reply[6] }} {{ reply[7] }} el: {{ reply[2] }}
+            <p>&emsp; | {{ reply[1] }}
+            <p>&emsp; Votos: {{ reply[3] }} | Promedio: {{ reply[4] }}
+        {% endfor %}
+
+
+        <p><button id="show_form_c{{ comment[0] }}" 
+            onclick="show_form('show_form_c{{ comment[0] }}', 'comment_c{{ comment[0] }}')"
+            style="display:block">Comentar</button>
+        <form id="comment_c{{ comment[0] }}" style="display:none" method ="post" 
+            action="/forum/read/{{ uuid }}/reply">
+            <input type="hidden" name="comment_key" value="{{ comment[0] }}"/>
+            <button type="submit">Comentar</button>
+            <p><textarea name="texto" cols="40" rows="5" 
+                placeholder="Ingrese su comentario..."></textarea>
+        </form>
         <hr>
     {% endfor %}
+
 </section>
+
+<script type=text/javascript src="{{url_for('static', filename='js/forum.js') }}"></script>  
