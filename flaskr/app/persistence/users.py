@@ -6,9 +6,7 @@ def create_user(form):
     try:
         connection = db_connect()
 
-        idRol = 1 if form["idRol"] == "1" else 4 # Check with HTML
         password = md5(form["contrasena"].encode()).hexdigest()[0:20]
-        birth_date = "%s-%s-%s" % (form["ano"], form["mes"], form["dia"])
 
         with connection.cursor() as cursor:
             cursor.execute(
@@ -17,8 +15,8 @@ def create_user(form):
                 nacimiento, genero, nacionalidad, residencia, 
                 contrasena, estado) VALUES 
             (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);""",
-            (idRol, form["correo"], form["nombre"], form["apellido1"], 
-            form["apellido2"], birth_date, form["genero"], form["nacionalidad"], 
+            (form["idRol"], form["correo"], form["nombre"], form["apellido1"], 
+            form["apellido2"], form["fecha"], form["genero"], form["nacionalidad"], 
             form["residencia"], password, 1))
         connection.commit()
 

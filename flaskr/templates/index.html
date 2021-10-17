@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <!--necesario viewport para responsive-->
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minium-scale=1.0, maxinum-scale=1.0">
+    <title>Juventudes Rurales</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/estilos.css') }}">
+    <link href="<link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <main class="contenedor">
+      <div class="logo">
+        <img src="{{url_for('static', filename='media/logo.png') }}" alt="">
+        <a href= "index.html"></a>
+      </div>
+      <div class="iica">
+        <img src="{{url_for('static', filename='media/logo IICA.png') }}" alt="">
+      </div>
+      <div class="isesion">
+          <!--<h5 class="boton">Iniciar sesión</h5>-->
+          <a href="login">Iniciar sesión</a>
+      </div>
+      <div class="contenedor-textos">
+
+        <h1 class="titulo">Se parte de la comunidad juventudes rurales</h1>
+        <p class="textopeq">Compartí experiencias con jóvenes rurales de la región hemisférica, aprendé y viví la experiencia.</p>
+        <!--<a>ancla es para enlazar-->
+        <a href="register">Registrarme</a>
+      </div>
+        <!--<div class="contenedor-fondo">
+          <img src="imagenes/manos.jpg" alt="">
+
+        </div>-->
+
+
+    </main>
+  </body>
+</html>

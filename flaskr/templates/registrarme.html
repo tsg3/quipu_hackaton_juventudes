@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minium-scale=1.0, maxinum-scale=1.0">
+    <title></title>
+  </head>
+  <body>
+
+    <form method="post">
+      <!--para encerrar formulario en un cuadrito-->
+      <fieldset>
+
+        <!--colocarle titulo al form-->
+        <legend>Registro</legend>
+
+        <label for="rol"">Tipo de usuario</label>
+        <select name="rol" id="rol">
+          <option>Jóven</option>
+          <option>Proveedor</option>
+        </select>
+
+        <p><label for="nombre">Nombre </label>
+        <!--input s fundamental en los formularios, nombre para base de datos
+        id es para conectar titulito de dato con input -->
+        <input type="text" name="nombre" id="nombre" placeholder="Escribe tu nombre">
+        <p><label for="apellidos">Apellidos </label>
+        <input type="text" name="apellidos" id="apellidos" placeholder="Escribe tus apellidos"></p>
+
+        <p><label for="correo">Correo electrónico </label>
+        <input type="email" name="correo" id="correo" placeholder="Escribe tu correo electrónico"></p>
+
+        <p><label for="contrasena">Contraseña </label>
+        <input type="password" name="contrasena" id="contrasena" placeholder="Escribe tu contraseña"></p>
+
+        <p><label for="contrasena_v">Verificar contraseña </label>
+        <input type="password" name="contrasena_v" id="contrasena_v" placeholder="Escribe de nuevo tu contraseña"></p>
+
+        <p><label for="fecha">Fecha de nacimiento </label>
+        <input type="date" name="fecha" id="fecha"></p>
+        <!--FALTA-->
+        <label for="genero"">Género </label>
+        <select name="genero" id="genero">
+          <option>Femenino</option>
+          <option>Masculino</option>
+          <option>No binario</option>
+          <option>Otro</option>
+
+        </select>
+        <p><label for="nacionalidad"">País de origen </label><p>
+        <select name="nacionalidad" id="nacionalidad">
+          <option>Antigua y Barbuda</option>
+          <option>Argentina</option>
+          <option>Bahamas</option>
+          <option>Barbados</option>
+          <option>Bélice</option>
+          <option>Bolivia</option>
+          <option>Brasil</option>
+          <option>Canadá</option>
+          <option>Chile</option>
+          <option>Colombia</option>
+          <option>Costa Rica</option>
+          <option>Cuba</option>
+          <option>Dominicana</option>
+          <option>Ecuador</option>
+          <option>El Salvador</option>
+          <option>España</option>
+          <option>Estados Unidos</option>
+          <option>Granada</option>
+          <option>Guatemala</option>
+          <option>Guyana</option>
+          <option>Haití</option>
+          <option>Honduras</option>
+          <option>Jamaica</option>
+          <option>México</option>
+          <option>Nicaragua</option>
+          <option>Panamá</option>
+          <option>Paraguay</option>
+          <option>Perú</option>
+          <option>República Dominicana</option>
+          <option>San Cristobal y Nieves</option>
+          <option>San Vicene y las Gradinas</option>
+          <option>Santa Lucía</option>
+          <option>Surinam</option>
+          <option>Trinidad y Tobago</option>
+          <option>Uruguay</option>
+          <option>Venezuela</option>
+        </select>
+        <p><label for="residencia"">País de residencia </label><p>
+        <select name="residencia" id="residencia">
+          <option>Antigua y Barbuda</option>
+          <option>Argentina</option>
+          <option>Bahamas</option>
+          <option>Barbados</option>
+          <option>Bélice</option>
+          <option>Bolivia</option>
+          <option>Brasil</option>
+          <option>Canadá</option>
+          <option>Chile</option>
+          <option>Colombia</option>
+          <option>Costa Rica</option>
+          <option>Cuba</option>
+          <option>Dominicana</option>
+          <option>Ecuador</option>
+          <option>El Salvador</option>
+          <option>España</option>
+          <option>Estados Unidos</option>
+          <option>Granada</option>
+          <option>Guatemala</option>
+          <option>Guyana</option>
+          <option>Haití</option>
+          <option>Honduras</option>
+          <option>Jamaica</option>
+          <option>México</option>
+          <option>Nicaragua</option>
+          <option>Panamá</option>
+          <option>Paraguay</option>
+          <option>Perú</option>
+          <option>República Dominicana</option>
+          <option>San Cristobal y Nieves</option>
+          <option>San Vicene y las Gradinas</option>
+          <option>Santa Lucía</option>
+          <option>Surinam</option>
+          <option>Trinidad y Tobago</option>
+          <option>Uruguay</option>
+          <option>Venezuela</option>
+        </select>
+
+        <p><input type=submit value=Registrame>
+
+      </fieldset>
+    </form>
+
+  </body>
+</html>

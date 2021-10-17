@@ -10,9 +10,7 @@ from flaskr.app.models.users import User
 users_pages = Blueprint('index', __name__)
 @users_pages.route('/')
 def index():
-    if flask_login.current_user.get_id() != None:
-        return "Main page: Logged"
-    return "Main page: Not logged"
+    return render_template("index.html")
 
 @users_pages.route('/profile', methods=['GET'])
 def profile():
@@ -50,28 +48,38 @@ def read_saved_forums():
 
 @users_pages.route('/register', methods=['GET', 'POST'])
 def register():
-    if request.method == 'POST':
-        res = user_db.create_user(request.form)
+    if flask_login.current_user.get_id() != None:
+        return redirect(url_for('.index')) # Logged
+
+    elif request.method == 'POST': # POST
+        form = {}
+
+        try:
+            apellidos = request.form["apellidos"].split()
+            form["apellido1"] = apellidos[0]
+            form["apellido2"] = apellidos[1]
+        except Exception as e:
+            print(e)
+            return redirect(url_for('.register')) # No apellidos
+
+        if request.form["contrasena"] != request.form["contrasena_v"]:
+            return redirect(url_for('.register')) # Diferentes contraseñas
+        
+        form["idRol"] = 1 if request.form["rol"] == "Jóven" else 4
+        form["correo"] = request.form["correo"]
+        form["nombre"] = request.form["nombre"]
+        form["fecha"] = request.form["fecha"]
+        form["genero"] = request.form["genero"]
+        form["nacionalidad"] = request.form["nacionalidad"]
+        form["residencia"] = request.form["residencia"]
+        form["contrasena"] = request.form["contrasena"]
+
+        res = user_db.create_user(form)
         if res == 0:
-            return redirect(url_for('.index'))
-        return redirect(url_for('.register'))
-    return '''
-        <form method="post">
-            <p>idRol<input type=text name=idRol>
-            <p>correo<input type=text name=correo>
-            <p>nombre<input type=text name=nombre>
-            <p>apellido1<input type=text name=apellido1>
-            <p>apellido2<input type=text name=apellido2>
-            <p>ano<input type=text name=ano>
-            <p>mes<input type=text name=mes>
-            <p>dia<input type=text name=dia>
-            <p>genero<input type=text name=genero>
-            <p>nacionalidad<input type=text name=nacionalidad>
-            <p>residencia<input type=text name=residencia>
-            <p>contrasena<input type=text name=contrasena>
-            <p><input type=submit value=Register>
-        </form>
-    '''
+            return redirect(url_for('.index')) # Worked
+
+        return redirect(url_for('.register')) # Error DB
+    return render_template("registrarme.html") # GET
 
 @users_pages.route('/login', methods=['GET', 'POST'])
 def login():
