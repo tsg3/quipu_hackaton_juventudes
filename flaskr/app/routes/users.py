@@ -1,6 +1,6 @@
 import base64
 
-from flask import Blueprint, request, redirect, url_for, render_template
+from flask import Blueprint, request, redirect, url_for, render_template, session
 import flask_login
 
 import flaskr.app.persistence.users as user_db
@@ -13,21 +13,18 @@ def index():
     return render_template("index.html")
 
 @users_pages.route('/profile', methods=['GET'])
+@flask_login.fresh_login_required
 def profile():
     key = flask_login.current_user.get_id()
-    if key != None:
-        
-        res = user_db.get_user_data(key)
+    res = user_db.get_user_data(key)
 
-        if res == -1: # Error
-            return redirect(url_for('.index'))
+    if res == -1: # Error
+        return redirect(url_for('.index'))
 
-        elif res[8] == 1:
-            return render_template("profile.html", user=res)
+    elif res[8] == 1:
+        return render_template("profile.html", user=res)
 
-        return redirect(url_for('.index')) # Deleted user
-
-    return redirect(url_for('.index')) # Not logged
+    return redirect(url_for('.index')) # Deleted user
 
 @users_pages.route('/profile/saved/forums', methods=['GET'])
 def read_saved_forums():
@@ -81,6 +78,16 @@ def register():
         return redirect(url_for('.register')) # Error DB
     return render_template("registrarme.html") # GET
 
+def redirect_dest(fallback):
+    dest = request.args.get("next")
+
+    try:
+        dest_url = url_for(dest)
+    except:
+        return redirect(fallback)
+
+    return redirect(dest_url)
+
 @users_pages.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -94,17 +101,9 @@ def login():
             user.estado = match[3]
             flask_login.login_user(user)
             
-            return redirect(url_for('.index'))
-        return redirect(url_for('.login'))
-    if request.method == 'GET' and flask_login.current_user.is_authenticated:
-        return redirect(url_for('.index'))
-    return '''
-        <form method="post">
-            <p>correo<input type=text name=correo>
-            <p>contrasena<input type=text name=contrasena>
-            <p><input type=submit value=Login>
-        </form>
-    '''
+    if flask_login.current_user.is_authenticated:
+        return redirect_dest(fallback=url_for(".index"))
+    return render_template("login.html", next=request.args.get("next"))
 
 @users_pages.route('/logout')
 def logout():
