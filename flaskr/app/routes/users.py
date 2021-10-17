@@ -27,6 +27,7 @@ def profile():
     return redirect(url_for('.index')) # Deleted user
 
 @users_pages.route('/profile/saved/forums', methods=['GET'])
+@flask_login.fresh_login_required
 def read_saved_forums():
     key = flask_login.current_user.get_id()
     if key != None:
@@ -78,15 +79,8 @@ def register():
         return redirect(url_for('.register')) # Error DB
     return render_template("registrarme.html") # GET
 
-def redirect_dest(fallback):
-    dest = request.args.get("next")
-
-    try:
-        dest_url = url_for(dest)
-    except:
-        return redirect(fallback)
-
-    return redirect(dest_url)
+def redirect_dest():
+    return redirect(request.args.get("next"))
 
 @users_pages.route('/login', methods=['GET', 'POST'])
 def login():
@@ -102,10 +96,11 @@ def login():
             flask_login.login_user(user)
             
     if flask_login.current_user.is_authenticated:
-        return redirect_dest(fallback=url_for(".index"))
+        return redirect_dest()
     return render_template("login.html", next=request.args.get("next"))
 
 @users_pages.route('/logout')
+@flask_login.login_required
 def logout():
     flask_login.logout_user()
     return redirect(url_for('.index'))

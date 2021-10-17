@@ -8,6 +8,7 @@ import flaskr.app.persistence.forum as forum_db
 
 forum_pages = Blueprint('forum', __name__, url_prefix="/forum")
 @forum_pages.route('/', methods=['GET'])
+@flask_login.login_required
 def index():
     if flask_login.current_user.get_id() == None:
         return redirect(url_for('index.index'))
@@ -22,6 +23,7 @@ def index():
     return redirect(url_for('index.index'))
 
 @forum_pages.route('/post', methods=['GET', 'POST'])
+@flask_login.fresh_login_required
 def post():
     if flask_login.current_user.get_id() == None:
         return redirect(url_for('index.index'))
@@ -39,6 +41,7 @@ def post():
     </form>"""
 
 @forum_pages.route('/read/<uuid>', methods=['GET'])
+@flask_login.login_required
 def read(uuid):
     if flask_login.current_user.get_id() == None:
         return redirect(url_for('index.index'))
@@ -59,6 +62,7 @@ def read(uuid):
     return redirect(url_for('index.index'))
 
 @forum_pages.route('/read/<uuid>/comment', methods=['POST'])
+@flask_login.fresh_login_required
 def comment(uuid):
     if flask_login.current_user.get_id() == None:
         return redirect(url_for('index.index'))
@@ -81,6 +85,7 @@ def comment(uuid):
     return redirect(url_for('index.index'))
 
 @forum_pages.route('/read/<uuid>/reply', methods=['POST'])
+@flask_login.fresh_login_required
 def reply(uuid):
     if flask_login.current_user.get_id() == None:
         return redirect(url_for('index.index'))
@@ -106,6 +111,7 @@ def reply(uuid):
     return redirect(url_for('index.index'))
 
 @forum_pages.route('/read/<uuid>/save', methods=['POST'])
+@flask_login.fresh_login_required
 def save(uuid):
     if flask_login.current_user.get_id() == None:
         return redirect(url_for('index.index')) # Not logged

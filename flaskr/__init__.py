@@ -58,11 +58,11 @@ def create_app(test_config=None):
 
     @login_manager.unauthorized_handler
     def login_needed():
-        return redirect(url_for('index.login', next=request.endpoint))
+        return redirect(url_for('index.login', next=request.full_path))
 
     @login_manager.needs_refresh_handler
     def refresh():
-        return redirect(url_for('index.login', next=request.endpoint))
+        return redirect(url_for('index.login', next=request.full_path))
 
     @app.before_request
     def make_session_not_permanent():
