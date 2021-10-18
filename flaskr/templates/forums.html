@@ -1,12 +1,58 @@
-<title>Forums</title>
-<section class="content">
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minium-scale=1.0, maxinum-scale=1.0">
+    <!-- <link rel="stylesheet" href="../estilos.css"> -->
+    <link  rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>Foro</title>
+    <style media="screen">
+      body{
+        font-family: 'Roboto', sans-serif;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 18px;
+        line-height: 21px;
+        /* identical to box height */
+        color: #14C3A2;
+      }
+      h2{
+        color: #595B5A;
+      }
+      p{
+        color: #595B5A;
+      }
+
+    </style>
+  </head>
+  <body>
+
+    <title>Foros</title>
+    <div class="top-bar">
+      <img src="{{ url_for('static', filename='media/logo.png') }}" alt="Logo juventudes rurales" title="Juventudes Rurales" width="100px">
+      <img src="{{ url_for('static', filename='media/logo IICA.png') }}" alt="Logo IICA" title="Logo IICA" width="100px">
+    </div>
+    <nav class="nav-bar">
+      <ul>
+        <li><a href="{{ url_for('index.index') }}">Inicio</a></li>
+        <li><a href="{{ url_for('index.index') }}">Blog</a></li>
+        <li><a href="{{ url_for('forum.index') }}">Foro</a></li>
+        <li><a href="{{ url_for('index.index') }}">Marketplace</a></li>
+        <li><a href="{{ url_for('index.profile') }}">Mi perfil</a></li>
+      </ul>
+    </nav>
+    <section class="content">
     <header>
-        Forums
+            Foros
     </header>
-    {% for forum in forums %}
-        <form method ="get" action="/forum/read/{{ forum[0] }}">
-            <div class="flash">{{ forum[1] }}</div>
-            <button type="submit">Read</button>
-        </form>
-    {% endfor %}
-</section>
+        {% for forum in forums %}
+            <form method ="get" action="/forum/read/{{ forum[0] }}">
+                <div class="flash">{{ forum[1] }}</div>
+                <button type="submit">Read</button>
+            </form>
+        {% endfor %}
+    </section>
+  </body>
+</html>
