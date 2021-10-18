@@ -1,56 +1,104 @@
-<title>Forum</title>
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minium-scale=1.0, maxinum-scale=1.0">
+    <!-- <link rel="stylesheet" href=" {{url_for('static', filename='css/estilos.css') }}"> -->
+    <link  rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>Forum</title>
+    <style media="screen">
+    body{
+      font-family: 'Roboto', sans-serif;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 18px;
+      line-height: 21px;
+      /* identical to box height */
+      color: #14C3A2;
+    }
+    h2{
+      color: #595B5A;
+    }
+    p{
+      color: #595B5A;
+    }
 
-<section class="content">
+    </style>
+  </head>
+  <header>
+    <div class="top-bar">
+      <img src="{{ url_for('static', filename='media/logo.png') }}" alt="Logo juventudes rurales" title="Juventudes Rurales" width="100px">
+      <img src="{{ url_for('static', filename='media/logo IICA.png') }}" alt="Logo IICA" title="Logo IICA" width="100px">
+    </div>
+    <nav class="nav-bar">
+      <ul>
+        <li><a href="{{ url_for('index.index') }}">Inicio</a></li>
+        <li><a href="{{ url_for('index.index') }}">Blog</a></li>
+        <li><a href="{{ url_for('forum.index') }}">Foro</a></li>
+        <li><a href="{{ url_for('index.index') }}">Marketplace</a></li>
+        <li><a href="{{ url_for('index.profile') }}">Mi perfil</a></li>
+      </ul>
+    </nav>
+  </header>
+  <body>
+    <title>Foro</title>
 
-    <h1>{{ state }} Título: {{ forum[0] }}</h1>
-    ~ Publicado por {{ forum[4] }} {{ forum[5] }} {{ forum[6] }} el: {{ forum[2] }}
-    <p>{{ forum[1] }}
+    <section class="content">
 
-    <form method="post" action="/forum/read/{{ uuid }}/save">
-        {% if saved == 0 %}
-            <button type="submit">Guardar foro</button>
-        {% else %}
-            <button type="submit">Eliminar de guardados</button>
-        {% endif %}
-    </form>
+        <h1>{{ state }} Título: {{ forum[0] }}</h1>
+        ~ Publicado por {{ forum[4] }} {{ forum[5] }} {{ forum[6] }} el: {{ forum[2] }}
+        <p>{{ forum[1] }}
 
-    <p><button id="show_form" onclick="show_form('show_form', 'forum_comm')" 
-        style="display:block">Comentar</button>
-    <form id="forum_comm" style="display:none" method ="post" 
-        action="/forum/read/{{ uuid }}/comment">
-        <button type="submit">Comentar</button>
-        <p><textarea name="texto" cols="40" rows="5" 
-            placeholder="Ingrese su comentario..."></textarea>
-    </form>
-    <hr>
+        <form method="post" action="/forum/read/{{ uuid }}/save">
+            {% if saved == 0 %}
+                <button type="submit">Guardar foro</button>
+            {% else %}
+                <button type="submit">Eliminar de guardados</button>
+            {% endif %}
+        </form>
 
-    <h2>Comentarios</h2>
-    {% for comment in comments['comms'] %}
-        {{ comment[5] }} {{ comment[6] }} {{ comment[7] }} el: {{ comment[2] }}
-        <p> | {{ comment[1] }}
-        <p>Votos: {{ comment[3] }} | Promedio: {{ comment[4] }}
-
-        {% for reply in comments['replies'][comment[0]] %}
-            <hr style="border-top: 1px dotted red;">
-            <p>&emsp; {{ reply[5] }} {{ reply[6] }} {{ reply[7] }} el: {{ reply[2] }}
-            <p>&emsp; | {{ reply[1] }}
-            <p>&emsp; Votos: {{ reply[3] }} | Promedio: {{ reply[4] }}
-        {% endfor %}
-
-
-        <p><button id="show_form_c{{ comment[0] }}" 
-            onclick="show_form('show_form_c{{ comment[0] }}', 'comment_c{{ comment[0] }}')"
+        <p><button id="show_form" onclick="show_form('show_form', 'forum_comm')"
             style="display:block">Comentar</button>
-        <form id="comment_c{{ comment[0] }}" style="display:none" method ="post" 
-            action="/forum/read/{{ uuid }}/reply">
-            <input type="hidden" name="comment_key" value="{{ comment[0] }}"/>
+        <form id="forum_comm" style="display:none" method ="post"
+            action="/forum/read/{{ uuid }}/comment">
             <button type="submit">Comentar</button>
-            <p><textarea name="texto" cols="40" rows="5" 
+            <p><textarea name="texto" cols="40" rows="5"
                 placeholder="Ingrese su comentario..."></textarea>
         </form>
         <hr>
-    {% endfor %}
 
-</section>
+        <h2>Comentarios</h2>
+        {% for comment in comments['comms'] %}
+            {{ comment[5] }} {{ comment[6] }} {{ comment[7] }} el: {{ comment[2] }}
+            <p> | {{ comment[1] }}
+            <p>Votos: {{ comment[3] }} | Promedio: {{ comment[4] }}
 
-<script type=text/javascript src="{{url_for('static', filename='js/forum.js') }}"></script>  
+            {% for reply in comments['replies'][comment[0]] %}
+                <hr style="border-top: 1px dotted red;">
+                <p>&emsp; {{ reply[5] }} {{ reply[6] }} {{ reply[7] }} el: {{ reply[2] }}
+                <p>&emsp; | {{ reply[1] }}
+                <p>&emsp; Votos: {{ reply[3] }} | Promedio: {{ reply[4] }}
+            {% endfor %}
+
+
+            <p><button id="show_form_c{{ comment[0] }}"
+                onclick="show_form('show_form_c{{ comment[0] }}', 'comment_c{{ comment[0] }}')"
+                style="display:block">Comentar</button>
+            <form id="comment_c{{ comment[0] }}" style="display:none" method ="post"
+                action="/forum/read/{{ uuid }}/reply">
+                <input type="hidden" name="comment_key" value="{{ comment[0] }}"/>
+                <button type="submit">Comentar</button>
+                <p><textarea name="texto" cols="40" rows="5"
+                    placeholder="Ingrese su comentario..."></textarea>
+            </form>
+            <hr>
+        {% endfor %}
+
+    </section>
+
+    <script type=text/javascript src="{{url_for('static', filename='js/forum.js') }}"></script>
+
+  </body>
+</html>
