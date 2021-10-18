@@ -80,6 +80,9 @@ def register():
     return render_template("registrarme.html") # GET
 
 def redirect_dest():
+    next = request.args.get("next")
+    if next == None:
+        return redirect(url_for(".profile"))
     return redirect(request.args.get("next"))
 
 @users_pages.route('/login', methods=['GET', 'POST'])

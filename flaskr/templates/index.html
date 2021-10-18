@@ -21,14 +21,14 @@
       </div>
       <div class="isesion">
           <!--<h5 class="boton">Iniciar sesión</h5>-->
-          <a href="login">Iniciar sesión</a>
+          <a href="{{url_for('index.login')}}">Iniciar sesión</a>
       </div>
       <div class="contenedor-textos">
 
         <h1 class="titulo">Se parte de la comunidad juventudes rurales</h1>
         <p class="textopeq">Compartí experiencias con jóvenes rurales de la región hemisférica, aprendé y viví la experiencia.</p>
         <!--<a>ancla es para enlazar-->
-        <a href="register">Registrarme</a>
+        <a href="{{url_for('index.register')}}">Registrarme</a>
       </div>
         <!--<div class="contenedor-fondo">
           <img src="imagenes/manos.jpg" alt="">
@@ -37,5 +37,16 @@
 
 
     </main>
+    <footer>
+      <div class="redessociales">
+        <ul>
+          <img src="imagenes/logo IICA.png" alt="">
+          <li><a href="https://es-la.facebook.com/IICAnoticias/">Facebook</a></li>
+          <li><a href="https://twitter.com/IICAnoticias?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor">Twiter</a></li>
+          <li><a href="https://www.instagram.com/iicaoficial/?hl=es-la">Instagram</a></li>
+        </ul>
+
+      </div>
+    </footer>
   </body>
 </html>
