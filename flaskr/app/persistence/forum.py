@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from flaskr.app.persistence.db import db_connect
+from flaskr.app.models.forums import even_sort
 
 def post_forum(id, key, form):
     try:
@@ -27,10 +28,29 @@ def get_forums():
     try:
         connection = db_connect()
 
-        match = None
+        men_matches = None
+        non_men_matches = None
+
         with connection.cursor() as cursor:
-            cursor.execute("""SELECT id, titulo FROM Foro;""")
-            match = cursor.fetchall()
+            cursor.execute(
+                """SELECT F.id, F.titulo 
+                FROM Foro AS F
+                INNER JOIN Usuario AS U ON F.idUsuario = U.id
+                WHERE U.idGenero = 2
+                ORDER BY publicacion DESC
+                LIMIT 5 OFFSET 0;""")
+            men_matches = cursor.fetchall()
+
+            cursor.execute(
+                """SELECT F.id, F.titulo 
+                FROM Foro AS F
+                INNER JOIN Usuario AS U ON F.idUsuario = U.id
+                WHERE U.idGenero != 2
+                ORDER BY publicacion DESC
+                LIMIT 5 OFFSET 0;""")
+            non_men_matches = cursor.fetchall()
+
+        match = even_sort(men_matches, non_men_matches)
 
         connection.close()
         return match
