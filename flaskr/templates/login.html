@@ -9,7 +9,7 @@
     <legend>Ingresar</legend>
     <form method="post" action="{{ url_for('.login', next=next) }}">
         <p>Correo electrónico<input type=text name=correo>
-        <p>Contraseña <input type=text name=contrasena>
+        <p>Contraseña <input type=password name=contrasena>
         <p><input type=submit value=Iniciar sesión>
     </form>
     <style media="screen">
