@@ -37,8 +37,7 @@ def get_forums():
                 FROM Foro AS F
                 INNER JOIN Usuario AS U ON F.idUsuario = U.id
                 WHERE U.idGenero = 2
-                ORDER BY publicacion DESC
-                LIMIT 5 OFFSET 0;""")
+                ORDER BY publicacion DESC;""")
             men_matches = cursor.fetchall()
 
             cursor.execute(
@@ -46,8 +45,7 @@ def get_forums():
                 FROM Foro AS F
                 INNER JOIN Usuario AS U ON F.idUsuario = U.id
                 WHERE U.idGenero != 2
-                ORDER BY publicacion DESC
-                LIMIT 5 OFFSET 0;""")
+                ORDER BY publicacion DESC;""")
             non_men_matches = cursor.fetchall()
 
         match = even_sort(men_matches, non_men_matches)

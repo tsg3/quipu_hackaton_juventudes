@@ -34,22 +34,26 @@ def even_sort(arr_1, arr_2):
         n = total_length >> 1
 
         if length_1 > length_2:
-            res.append(arr_1[n])
+            res.append(arr_1[0])
+            i_arr_1 = 1
 
-            while i_arr_1 < n:
-                res.append(arr_2[i_arr_1])
+            while i_arr_2 < n:
+                res.append(arr_2[i_arr_2])
                 res.append(arr_1[i_arr_1])
 
                 i_arr_1 += 1
+                i_arr_2 += 1
 
         else:
-            res.append(arr_2[n])
+            res.append(arr_2[0])
+            i_arr_2 = 1
 
             while i_arr_1 < n:
                 res.append(arr_1[i_arr_1])
-                res.append(arr_2[i_arr_1])
+                res.append(arr_2[i_arr_2])
 
                 i_arr_1 += 1
+                i_arr_2 += 1
     
     else:
         unit_arr_1_percent = 100 / length_1
