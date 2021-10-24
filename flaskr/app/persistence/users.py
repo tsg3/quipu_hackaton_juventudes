@@ -10,13 +10,17 @@ def create_user(form):
 
         with connection.cursor() as cursor:
             cursor.execute(
+                """SELECT id FROM Genero WHERE genero = %s;""", (form["genero"], ))
+            id_genero = cursor.fetchone()[0]
+
+            cursor.execute(
             """INSERT INTO Usuario 
                 (idRol, correo, nombre, apellido1, apellido2, 
-                nacimiento, genero, nacionalidad, residencia, 
+                nacimiento, idGenero, nacionalidad, residencia, 
                 contrasena, estado) VALUES 
             (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);""",
             (form["idRol"], form["correo"], form["nombre"], form["apellido1"], 
-            form["apellido2"], form["fecha"], form["genero"], form["nacionalidad"], 
+            form["apellido2"], form["fecha"], id_genero, form["nacionalidad"], 
             form["residencia"], password, 1))
         connection.commit()
 
@@ -74,10 +78,11 @@ def get_user_data(key):
         with connection.cursor() as cursor:
             cursor.execute(
                 """SELECT U.correo, U.nombre, U.apellido1, U.apellido2, 
-                    U.nacimiento, U.genero, U.nacionalidad, U.residencia, 
+                    U.nacimiento, G.genero, U.nacionalidad, U.residencia, 
                     U.estado, R.rol
                 FROM Usuario AS U
                 INNER JOIN Rol AS R ON U.idRol = R.id
+                INNER JOIN Genero AS G ON U.idGenero = G.id
                 WHERE U.id = %s;""", (key))
 
                 # Needed for final product

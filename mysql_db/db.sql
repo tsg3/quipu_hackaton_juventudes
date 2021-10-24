@@ -5,6 +5,13 @@ CREATE TABLE IF NOT EXISTS quipu_db.Rol
     PRIMARY KEY (id)
 );
 
+CREATE TABLE IF NOT EXISTS quipu_db.Genero
+(
+    id INT NOT NULL AUTO_INCREMENT,
+    genero VARCHAR(20),
+    PRIMARY KEY (id)
+);
+
 CREATE TABLE IF NOT EXISTS quipu_db.Usuario
 (
     id INT NOT NULL AUTO_INCREMENT,
@@ -14,13 +21,14 @@ CREATE TABLE IF NOT EXISTS quipu_db.Usuario
     apellido1 VARCHAR(15),
     apellido2 VARCHAR(15),
     nacimiento DATE,
-    genero VARCHAR(20),
+    idGenero INT NOT NULL,
     nacionalidad VARCHAR(30),
     residencia VARCHAR(30),
     contrasena VARCHAR(20),
     estado BOOLEAN,
     PRIMARY KEY (id),
-    FOREIGN KEY (idRol) REFERENCES quipu_db.Rol(id)
+    FOREIGN KEY (idRol) REFERENCES quipu_db.Rol(id),
+    FOREIGN KEY (idGenero) REFERENCES quipu_db.Genero(id)
 );
 
 CREATE TABLE IF NOT EXISTS quipu_db.Actividad
@@ -257,3 +265,9 @@ INSERT INTO quipu_db.Actividad (actividad) VALUES
     ("Agricultura"),
     ("Avicultura"),
     ("Apicultura");
+
+INSERT INTO quipu_db.Genero (genero) VALUES
+    ("Femenino"),
+    ("Masculino"),
+    ("No binario"),
+    ("Otro");

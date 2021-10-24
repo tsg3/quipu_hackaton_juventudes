@@ -26,3 +26,4 @@ DROP TABLE IF EXISTS quipu_db.UsuarioActividad;
 DROP TABLE IF EXISTS quipu_db.Usuario;
 DROP TABLE IF EXISTS quipu_db.Actividad;
 DROP TABLE IF EXISTS quipu_db.Rol;
+DROP TABLE IF EXISTS quipu_db.Genero;
