@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minium-scale=1.0, maxinum-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+    <link  rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <title></title>
+    <style media="screen">
+    .textopeq{
+      position: absolute;
+      width: 544px;
+      height: 46px;
+      left: 105px;
+      top: 350px;
+
+      font-family: Roboto;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 20px;
+      line-height: 23px;
+
+      color: #14C3A2;
+      /*top: 350px;*/
+
+    }
+    .titulo{
+      position: absolute;
+      left: 105px;
+      right: 485px;
+      top: 189px;
+      bottom: 391px;
+
+      font-family: Roboto;
+      font-style: normal;
+      font-weight: 900;
+      font-size: 60px;
+      line-height: 70px;
+
+      color: #14C3A2;
+
+    }
+    </style>
+  </head>
+  <body>
+
+    <!--maquetación-->
+    <!--encabezado del sitio-->
+    <header>
+        <div class="top-bar">
+            <img src="{{ url_for('static', filename='media/logo.png') }}" alt="Logo juventudes rurales" title="Juventudes Rurales" width="100px">
+            <img src="{{ url_for('static', filename='media/logo IICA.png') }}" alt="Logo IICA" title="Logo IICA" width="100px">
+          </div>
+        <nav class="nav-bar">
+        <ul>
+            <li><a href="{{ url_for('index.index') }}">Inicio</a></li>
+            <li><a href="{{ url_for('index.blog') }}">Blog</a></li>
+            <li><a href="{{ url_for('forum.index') }}">Foro</a></li>
+            <li><a href="{{ url_for('index.marketplace') }}">Marketplace</a></li>
+            <li><a href="{{ url_for('index.profile') }}">Mi perfil</a></li>
+            </ul>
+        </nav>
+      </header>
+    <div class="contenedor-textos">
+      <h1 class="titulo">Marketplace</h1>
+      <p class="textopeq">Próximamente un lugar donde podrá tener a su alcance variedad de insumos agropecuarios</p>
+    </div>
+
+  </body>
+</html>

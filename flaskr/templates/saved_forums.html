@@ -1,0 +1,22 @@
+<title>Foros guardados</title>
+
+<section class="content">
+
+    <h1>Foros Guardados</h1>
+
+    {% if forums == [] %}
+
+        No tiene foros guardados!
+    
+    {% else %}
+
+        {% for forum in forums %}
+            <form method ="get" action="/forum/read/{{ forum[0] }}">
+                <div class="flash">{{ forum[1] }}</div>
+                <button type="submit">Read</button>
+            </form>
+        {% endfor %}
+
+    {% endif %}
+
+</section>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<!--FALTA HILOS GUARDADOS-->
+<!--FALTA FOTO PERFIL *AÚN NO TRABAJADO, SOLO IDea*-->
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minium-scale=1.0, maxinum-scale=1.0">
+    <title>Mi perfil</title>
+    <style media="screen">
+      *{
+        padding: 0;
+      }
+      body{
+        font-family: 'Roboto', sans-serif;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 18px;
+        line-height: 21px;
+        /* identical to box height */
+        color: #14C3A2;
+      }
+      h2{
+        color: #595B5A;
+      }
+      p{
+        color: #595B5A;
+      }
+      .contenedor{
+        width: 100%;
+        color: #ffffff;
+      }
+      ul li{
+        list-style-type: none;
+        display: inline;
+      }
+      a{
+        display:inline-block;
+        background-color: #0DE5A8;
+        padding: 10px;
+        color: white;
+        text-decoration: none;
+      }
+      .top-bar {
+          background-color: #0DE5A8;
+          padding: 0 40px;
+      }
+
+    </style>
+
+  </head>
+  <body>
+    <header>
+      <div class="top-bar">
+        <img src="{{ url_for('static', filename='media/logo.png') }}" alt="Logo juventudes rurales" title="Juventudes Rurales" width="100px">
+        <img src="{{ url_for('static', filename='media/logo IICA.png') }}" alt="Logo IICA" title="Logo IICA" width="100px">
+      </div>
+      <nav class="nav-bar">
+        <ul>
+          <li><a href="{{ url_for('index.index') }}">Inicio</a></li>
+          <li><a href="{{ url_for('index.blog') }}">Blog</a></li>
+          <li><a href="{{ url_for('forum.index') }}">Foro</a></li>
+          <li><a href="{{ url_for('index.marketplace') }}">Marketplace</a></li>
+          <li><a href="{{ url_for('index.profile') }}">Mi perfil</a></li>
+          <li><a href="{{ url_for('index.logout') }}">Cerrar sesión</a></li>
+        </ul>
+      </nav>
+    </header>
+    <title>Perfil</title>
+
+    <section class="content">
+
+        <h1>Perfil</h1>
+
+        <p><label>Correo electrónico: </label>{{ user[0] }}</p>
+        <p><label>Nombre: </label>{{ user[1] }}</p>
+        <p><label>Primer apellido: </label>{{ user[2] }}</p>
+        <p><label>Segundo apellido: </label>{{ user[3] }}</p>
+        <p><label>Fecha de nacimiento: </label>{{ user[4] }}</p>
+        <p><label>Género: </label>{{ user[5] }}</p>
+        <p><label>Nacionalidad: </label>{{ user[6] }}</p>
+        <p><label>Lugar de residencia: </label>{{ user[7] }}</p>
+        <p><label>Rol de usuario: </label>{{ user[9] }}</p>
+
+    </section>
+    <section class="content">
+
+      <h1>Hilos guardados</h1>
+
+      {% if forums == [] %}
+
+          Aún no tiene hilos guardados, vaya a la sección de foros y si desea duardar uno de click sobre el ícono de separador de libro.
+
+      {% else %}
+
+          {% for forum in forums %}
+              <form method ="get" action="/forum/read/{{ forum[0] }}">
+                  <div class="flash">{{ forum[1] }}</div>
+                  <button type="submit">Leer hilo</button>
+              </form>
+              <hr>
+          {% endfor %}
+
+      {% endif %}
+    </section>
+
+  </body>
+</html>

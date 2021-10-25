@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minium-scale=1.0, maxinum-scale=1.0">
+    <title>Iniciar sesión</title>
+  </head>
+  <body>
+    <form method="post" action="{{ url_for('index.login', next=next) }}">
+      <legend>Ingresar</legend>
+      <p><label for="correo">Correo electrónico </label>
+      <input type="email" name="correo" id="correo" placeholder="Escribe tu correo electrónico" required></p>
+      <p><label for="contrasena">Contraseña </label>
+      <input type="password" name="contrasena" id="contrasena" placeholder="Escribe tu contraseña" required></p>
+      <p style="color: #A7B0AF;" style="font-weight: 500;" style="font-size: 18px;">
+        <input type="checkbox" name="recuerdame" id="recuerdame"> Recuérdame
+      </p>
+      <p>
+        <input type="submit" value="Iniciar sesión">
+      </p>
+    </form>
+    <style media="screen">
+    body{
+      font-family: 'Roboto', sans-serif;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 18px;
+      line-height: 21px;
+      /* identical to box height */
+      color: #14C3A2;
+    }
+    .actividades{
+      font-size: 18px;
+      line-height: 21px;
+      color: #595B5A;
+    }
+
+    </style>
+  </body>
+</html>
