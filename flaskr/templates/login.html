@@ -6,11 +6,18 @@
     <title>Iniciar sesión</title>
   </head>
   <body>
-    <legend>Ingresar</legend>
-    <form method="post" action="{{ url_for('.login', next=next) }}">
-        <p>Correo electrónico<input type=text name=correo>
-        <p>Contraseña <input type=password name=contrasena>
-        <p><input type=submit value=Iniciar sesión>
+    <form method="post" action="{{ url_for('index.login', next=next) }}">
+      <legend>Ingresar</legend>
+      <p><label for="correo">Correo electrónico </label>
+      <input type="email" name="correo" id="correo" placeholder="Escribe tu correo electrónico" required></p>
+      <p><label for="contrasena">Contraseña </label>
+      <input type="password" name="contrasena" id="contrasena" placeholder="Escribe tu contraseña" required></p>
+      <p style="color: #A7B0AF;" style="font-weight: 500;" style="font-size: 18px;">
+        <input type="checkbox" name="recuerdame" id="recuerdame"> Recuérdame
+      </p>
+      <p>
+        <input type="submit" value="Iniciar sesión">
+      </p>
     </form>
     <style media="screen">
     body{

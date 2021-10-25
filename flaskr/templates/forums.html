@@ -3,11 +3,12 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minium-scale=1.0, maxinum-scale=1.0">
-    <!-- <link rel="stylesheet" href="../estilos.css"> -->
+    <title>Foro</title>
+    <!--HREF CSS-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
     <link  rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <title>Foro</title>
     <style media="screen">
       body{
         font-family: 'Roboto', sans-serif;
@@ -29,30 +30,121 @@
   </head>
   <body>
 
-    <title>Foros</title>
-    <div class="top-bar">
-      <img src="{{ url_for('static', filename='media/logo.png') }}" alt="Logo juventudes rurales" title="Juventudes Rurales" width="100px">
-      <img src="{{ url_for('static', filename='media/logo IICA.png') }}" alt="Logo IICA" title="Logo IICA" width="100px">
-    </div>
-    <nav class="nav-bar">
-      <ul>
-        <li><a href="{{ url_for('index.index') }}">Inicio</a></li>
-        <li><a href="{{ url_for('index.index') }}">Blog</a></li>
-        <li><a href="{{ url_for('forum.index') }}">Foro</a></li>
-        <li><a href="{{ url_for('index.index') }}">Marketplace</a></li>
-        <li><a href="{{ url_for('index.profile') }}">Mi perfil</a></li>
-      </ul>
-    </nav>
-    <section class="content">
+    <!--HREF IMAGENES-->
+
     <header>
-            Foros
+      <div class="top-bar">
+        <img src="{{ url_for('static', filename='media/logo.png') }}" alt="Logo juventudes rurales" title="Juventudes Rurales" width="100px">
+        <img src="{{ url_for('static', filename='media/logo IICA.png') }}" alt="Logo IICA" title="Logo IICA" width="100px">
+      </div>
+      <nav class="nav-bar">
+        <ul>
+          <li><a href="{{ url_for('index.index') }}">Inicio</a></li>
+          <li><a href="{{ url_for('index.blog') }}">Blog</a></li>
+          <li><a href="{{ url_for('forum.index') }}">Foro</a></li>
+          <li><a href="{{ url_for('index.marketplace') }}">Marketplace</a></li>
+          <li><a href="{{ url_for('index.profile') }}">Mi perfil</a></li>
+        </ul>
+      </nav>
     </header>
-        {% for forum in forums %}
-            <form method ="get" action="/forum/read/{{ forum[0] }}">
-                <div class="flash">{{ forum[1] }}</div>
-                <button type="submit">Read</button>
-            </form>
-        {% endfor %}
-    </section>
+
+    <!--sección tipo que estas pensando-->
+    <h3>Regálale a esta comunidad un nuevo tema de conversación, ¡te escuchamos!</h3>
+    <form method="post" action="/forum/post">
+      <p>
+        <label for="titulo">Titulo: </label>
+        <textarea id="titulo" name="titulo" placeholder="Dale un título representativo a tu hilo" required></textarea>
+      </p>
+      <p>
+        <label for="datos">Tu opinión: </label>
+        <textarea id="datos" name="datos" placeholder="Cuéntale a la comunidad lo que desees" required></textarea>
+      </p>
+      <p>
+        <input type="submit" name="publicar" value="Publicar">
+        <input type="reset" name="reset" value="Restaurar">
+      </p>
+    </form>
+
+    <ol>
+      <section class="content">
+
+      {% for forum in forums %}
+
+        <li class="row">
+          <a href="/forum/read/{{ forum[0] }}">
+            <h4 class="title">
+              {{ forum[1] }}
+            </h4>
+            <p>{{ forum[2] }}</p> 
+            <div class="botones">
+              <form method="post" action="/forum/read/{{ uuid }}/save">
+                  {% if forum[5] == 0 %}
+                      <button type="submit">Guardar foro</button>
+                  {% else %}
+                      <button type="submit">Eliminar de guardados</button>
+                  {% endif %}
+              </form>
+
+            </div>
+            <div class="bottom">
+              <p class="timestamp">
+                {{ forum[3] }}
+              </p>
+
+              <p class="comment-count">
+                {{ forum[4] }} comentarios
+              </p>
+
+            </div>
+
+          </a>
+        </li>
+
+      {% endfor %}
+
+    </ol>
+    <style>
+      body {
+        margin: 10px;
+      }
+      a{
+        text-decoration: none;
+        color: black;
+      }
+      h4{
+        margin: 0;
+      }
+      p {
+            margin: 5px 0;
+      }
+      .top-bar {
+          background-color: #0DE5A8;
+          padding: 0 40px;
+      }
+      /*poner main*/
+      .row {
+          padding: 5px 0;
+      }
+      .bottom{
+        display: flex;
+      }
+      .timestamp{
+        padding-right: 100px
+      }
+
+    </style>
+
+
+    <footer>
+      <div class="redessociales">
+        <ul>
+          <li><a href="https://es-la.facebook.com/IICAnoticias/">Facebook</a></li>
+          <li><a href="https://twitter.com/IICAnoticias?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor">Twiter</a></li>
+          <li><a href="https://www.instagram.com/iicaoficial/?hl=es-la">Instagram</a></li>
+        </ul>
+
+      </div>
+    </footer>
+
   </body>
 </html>

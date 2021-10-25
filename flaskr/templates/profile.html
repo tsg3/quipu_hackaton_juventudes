@@ -1,20 +1,6 @@
-<!-- <title>Perfil</title>
-
-<section class="content">
-
-    <h1>Perfil</h1>
-    <p>{{ user[0] }}</p>
-    <p>{{ user[1] }}</p>
-    <p>{{ user[2] }}</p>
-    <p>{{ user[3] }}</p>
-    <p>{{ user[4] }}</p>
-    <p>{{ user[5] }}</p>
-    <p>{{ user[6] }}</p>
-    <p>{{ user[7] }}</p>
-    <p>{{ user[9] }}</p> -->
-
-</section>
 <!DOCTYPE html>
+<!--FALTA HILOS GUARDADOS-->
+<!--FALTA FOTO PERFIL *AÚN NO TRABAJADO, SOLO IDea*-->
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
@@ -23,7 +9,6 @@
     <style media="screen">
       *{
         padding: 0;
-
       }
       body{
         font-family: 'Roboto', sans-serif;
@@ -72,10 +57,11 @@
       <nav class="nav-bar">
         <ul>
           <li><a href="{{ url_for('index.index') }}">Inicio</a></li>
-          <li><a href="{{ url_for('index.index') }}">Blog</a></li>
+          <li><a href="{{ url_for('index.blog') }}">Blog</a></li>
           <li><a href="{{ url_for('forum.index') }}">Foro</a></li>
-          <li><a href="{{ url_for('index.index') }}">Marketplace</a></li>
+          <li><a href="{{ url_for('index.marketplace') }}">Marketplace</a></li>
           <li><a href="{{ url_for('index.profile') }}">Mi perfil</a></li>
+          <li><a href="{{ url_for('index.logout') }}">Cerrar sesión</a></li>
         </ul>
       </nav>
     </header>
@@ -95,6 +81,26 @@
         <p><label>Lugar de residencia: </label>{{ user[7] }}</p>
         <p><label>Rol de usuario: </label>{{ user[9] }}</p>
 
+    </section>
+    <section class="content">
+
+      <h1>Hilos guardados</h1>
+
+      {% if forums == [] %}
+
+          Aún no tiene hilos guardados, vaya a la sección de foros y si desea duardar uno de click sobre el ícono de separador de libro.
+
+      {% else %}
+
+          {% for forum in forums %}
+              <form method ="get" action="/forum/read/{{ forum[0] }}">
+                  <div class="flash">{{ forum[1] }}</div>
+                  <button type="submit">Leer hilo</button>
+              </form>
+              <hr>
+          {% endfor %}
+
+      {% endif %}
     </section>
 
   </body>

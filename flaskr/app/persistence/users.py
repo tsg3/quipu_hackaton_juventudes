@@ -10,6 +10,13 @@ def create_user(form):
 
         with connection.cursor() as cursor:
             cursor.execute(
+                """SELECT id FROM Usuario WHERE correo = %s;""", (form["correo"], ))
+            exists = cursor.fetchone()
+            if exists != None:
+                connection.close()
+                return -2
+
+            cursor.execute(
                 """SELECT id FROM Genero WHERE genero = %s;""", (form["genero"], ))
             id_genero = cursor.fetchone()[0]
 

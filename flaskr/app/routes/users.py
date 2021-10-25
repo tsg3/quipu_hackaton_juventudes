@@ -10,7 +10,27 @@ from flaskr.app.models.users import User
 users_pages = Blueprint('index', __name__)
 @users_pages.route('/')
 def index():
+    if flask_login.current_user.get_id() != None:
+        return render_template("main_page.html")
     return render_template("index.html")
+
+@users_pages.route('/blog')
+@flask_login.login_required
+def blog():
+    if flask_login.current_user.get_id() != None:
+        return render_template("blog.html")
+    return redirect(url_for('.index'))
+
+@users_pages.route('/marketplace')
+@flask_login.login_required
+def marketplace():
+    if flask_login.current_user.get_id() != None:
+        return render_template("marketplace.html")
+    return redirect(url_for('.index'))
+
+@users_pages.route('/terms')
+def terms():
+    return render_template("terms.html")
 
 @users_pages.route('/profile', methods=['GET'])
 @flask_login.fresh_login_required
@@ -22,7 +42,18 @@ def profile():
         return redirect(url_for('.index'))
 
     elif res[8] == 1:
-        return render_template("profile.html", user=res)
+        saved_res = forum_db.get_saved_forums(key)
+        forums_list = None
+
+        if saved_res == -1: # Error
+            forums_list = []
+
+        else:
+            forums_list = [list(forum) for forum in saved_res]
+            for i in range(len(forums_list)):
+                forums_list[i][0] = base64.urlsafe_b64encode(forums_list[i][0]).rstrip(b"=").decode()
+
+        return render_template("profile.html", user=res, forums=forums_list)
 
     return redirect(url_for('.index')) # Deleted user
 
@@ -74,6 +105,16 @@ def register():
 
         res = user_db.create_user(form)
         if res == 0:
+            res = user_db.login_user(form)
+            if res != -1 and res != -2:
+                user = User()
+                match = user_db.get_user_for_session(res[0])
+                user.id = res[0]
+                user.correo = match[1]
+                user.contrasena = match[2]
+                user.estado = match[3]
+                flask_login.login_user(user)
+
             return redirect(url_for('.index')) # Worked
 
         return redirect(url_for('.register')) # Error DB

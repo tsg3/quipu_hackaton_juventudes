@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minium-scale=1.0, maxinum-scale=1.0">
+    <title>Blog</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+    <link  rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <h1>Blog</h1>
+    <!--maquetación-->
+    <!--encabezado del sitio-->
+    <header>
+        <div class="top-bar">
+            <img src="{{ url_for('static', filename='media/logo.png') }}" alt="Logo juventudes rurales" title="Juventudes Rurales" width="100px">
+            <img src="{{ url_for('static', filename='media/logo IICA.png') }}" alt="Logo IICA" title="Logo IICA" width="100px">
+          </div>
+        <nav class="nav-bar">
+        <ul>
+            <li><a href="{{ url_for('index.index') }}">Inicio</a></li>
+            <li><a href="{{ url_for('index.blog') }}">Blog</a></li>
+            <li><a href="{{ url_for('forum.index') }}">Foro</a></li>
+            <li><a href="{{ url_for('index.marketplace') }}">Marketplace</a></li>
+            <li><a href="{{ url_for('index.profile') }}">Mi perfil</a></li>
+            </ul>
+        </nav>
+      </header>
+    <!--artículos-->
+    <section>
+      <article>
+        <h2>Kombucha: una gaseosa natural</h2>
+        <p>Es una bebida fermentada de ligero sabor ácido obtenida a base de té endulzado fermentado por la acción de una colonia de aspecto gelatinoso compuesta por varios microorganismos: bacterias, como Medusomyces gisevi y Bacterium xylinum, y levaduras, como Gluconobacter oxydans, Saccharomyces ludwigii, S. cerevisiae, Schizosaccharomyces pombe, Pichia fermentans y Zygosaccharomyces bailii.</p>
+        <p>En la elaboración del té kombucha casero se suele preparar de antemano una cierta cantidad de té negro, oolong o incluso té verde, pero el método más tradicional utiliza té rojo chino (que da origen a su nombre en idioma chino: jon cha chin, u ‘hongo de té rojo‘). Se le añade azúcar (sacarosa) en la proporción de 120 a 150 gramos de azúcar por litro de agua. Se deja enfriar a temperatura ambiente y tras ello se agrega el cultivo (un hongo entero) o una parte. Por no ser un organismo sino una colonia, la kombucha se puede cortar o separar.</p>
+      </article>
+    </section>
+
+    <footer>
+      <div class="redessociales">
+        <ul>
+          <li><a href="https://es-la.facebook.com/IICAnoticias/">Facebook</a></li>
+          <li><a href="https://twitter.com/IICAnoticias?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor">Twiter</a></li>
+          <li><a href="https://www.instagram.com/iicaoficial/?hl=es-la">Instagram</a></li>
+        </ul>
+
+      </div>
+    </footer>
+
+  </body>
+</html>

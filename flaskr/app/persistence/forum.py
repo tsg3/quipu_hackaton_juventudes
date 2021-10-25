@@ -33,7 +33,7 @@ def get_forums():
 
         with connection.cursor() as cursor:
             cursor.execute(
-                """SELECT F.id, F.titulo 
+                """SELECT F.id, F.titulo, F.datos, F.publicacion
                 FROM Foro AS F
                 INNER JOIN Usuario AS U ON F.idUsuario = U.id
                 WHERE U.idGenero = 2
@@ -41,7 +41,7 @@ def get_forums():
             men_matches = cursor.fetchall()
 
             cursor.execute(
-                """SELECT F.id, F.titulo 
+                """SELECT F.id, F.titulo, F.datos, F.publicacion
                 FROM Foro AS F
                 INNER JOIN Usuario AS U ON F.idUsuario = U.id
                 WHERE U.idGenero != 2
@@ -147,6 +147,45 @@ def get_comments(idForum):
         print(e)
         return -1
 
+def count_comments(id):
+    try:
+        connection = db_connect()
+
+        total = 0
+
+        with connection.cursor() as cursor:
+            cursor.execute(
+            """SELECT COUNT(Comm.id)
+                FROM ComentarioForo AS Comm
+                INNER JOIN Usuario AS Us ON Comm.idUsuario = Us.id
+                WHERE Comm.idForo = %s;""", (id))
+            match = cursor.fetchone()
+
+            if match[0] != 0:
+                total = match[0]
+
+                cursor.execute(
+                """SELECT Comm.id
+                    FROM ComentarioForo AS Comm
+                    INNER JOIN Usuario AS Us ON Comm.idUsuario = Us.id
+                    WHERE Comm.idForo = %s;""", (id))
+                match = cursor.fetchall()
+
+                for id_comm in match:
+                    cursor.execute(
+                    """SELECT COUNT(Comm.id)
+                        FROM ComentarioForo AS Comm
+                        WHERE Comm.idComentarioForo = %s;""", (id_comm[0],))
+                    sub_match = cursor.fetchone()
+                    if sub_match != None:
+                        total += sub_match[0]
+
+        connection.close()
+        return total
+    except Exception as e:
+        print(e)
+        return -1
+
 def save_forum(idUser, idForum):
     try:
         connection = db_connect()
@@ -194,7 +233,7 @@ def check_saved(idUser, idForum):
                 (idForum, idUser))
             match = cursor.fetchone()
         if match == None:
-            match = 0
+            match = (0,)
         
         connection.close()
         return match[0]

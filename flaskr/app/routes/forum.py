@@ -17,7 +17,24 @@ def index():
     if forums != -1:
         forums_list = [list(forum) for forum in forums]
         for i in range(len(forums_list)):
+            forums_list[i].append(forum_db.count_comments(forums_list[i][0]))
+
+            saved = forum_db.check_saved(flask_login.current_user.get_id(), forums_list[i][0])
+            if saved == -1:
+                saved = 0
+            forums_list[i].append(saved)
+
             forums_list[i][0] = base64.urlsafe_b64encode(forums_list[i][0]).rstrip(b"=").decode()
+            
+            if len(forums_list[i][2]) > 50:
+                forums_list[i][2] = forums_list[i][2][:47] + "..."
+            
+            forums_list[i][3] = forums_list[i][3].strftime("%d/%m/%Y, a las %H:%M:%S")
+            # date_time = forums_list[i][3].split()
+            # date_values = date_time[0].split("-")
+            # forums_list[i][3] = date_values + "/" + date_values + "/" + date_values \
+            #     + ", a las " + date_time[1]
+            
         return render_template("forums.html", forums=forums_list)
 
     return redirect(url_for('index.index'))
@@ -55,6 +72,8 @@ def read(uuid):
         comments = forum_db.get_comments(key)
         state = "Abierto" if match[3] == 0 else "Cerrado"
         saved = forum_db.check_saved(flask_login.current_user.get_id(), key)
+        if saved == -1:
+            saved = 0
 
         return render_template("forum.html", 
             forum=match, state=state, uuid=uuid, comments=comments, saved=saved)
